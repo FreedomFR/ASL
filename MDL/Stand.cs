@@ -8,15 +8,29 @@ namespace MDL
 {
     class Stand
     {
+        private string nomStand;
         private int alle;
         private int ordre;
 
-        public Stand(int uneAlle, int unOrdre)
+        public Stand()
         {
-            this.alle = uneAlle;
-            this.ordre = unOrdre;
+
         }
 
+        public int getAlle()
+        {
+            return alle;
+        }
+
+        public int getOrder()
+        {
+            return ordre;
+        }
+
+        public string getNomStand()
+        {
+            return nomStand;
+        }
 
     }
 }

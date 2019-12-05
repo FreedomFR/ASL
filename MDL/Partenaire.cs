@@ -10,6 +10,8 @@ namespace MDL
     {
         private Boolean cluborganisateur;
         private Boolean equipementier;
+        private string nom;
+        private string prenom;
 
         public Partenaire(Boolean unClub, Boolean unEquip)
         {
