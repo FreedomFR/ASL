@@ -8,17 +8,53 @@ namespace MDL
 {
     class Partenaire
     {
-        private Boolean cluborganisateur;
-        private Boolean equipementier;
-        private string nom;
-        private string prenom;
+        private string idpartenaire;
+        private string nomPartenaire;
+        private string typePartenaire;
 
-        public Partenaire(Boolean unClub, Boolean unEquip)
+        public Partenaire()
         {
-            this.cluborganisateur = unClub;
-            this.equipementier = unEquip;
+
         }
 
-    }
+        public Partenaire(string unNomPartenaire, string unTypePartenaire)
+        {
+            this.unNomPartenaire = unNomPartenaire;
+            this.unTypePartenaire = unTypePartenaire;
+        }
 
+        public Partenaire(string unIdpartenaire)
+        {
+            this.unIdPartenaire = unIdPartenaire;
+        }
+
+
+        public string unIdPartenaire
+        {
+            get { return idpartenaire; }
+            set { idpartenaire = value; }
+        }
+
+        public string unNomPartenaire
+        {
+            get { return nomPartenaire; }
+            set { nomPartenaire = value; }
+        }
+
+        public string unTypePartenaire
+        {
+            get { return typePartenaire; }
+            set { typePartenaire = value; }
+        }
+
+        public static List<Partenaire> AvoirToutLesParteneaire()
+        {
+            return DAOPartenaire.getAllPartenaire();
+        }
+
+        public string getIdPartenaire()
+        {
+            return DAOPartenaire.getIdPartenaire(this);
+        }
+    }
 }
