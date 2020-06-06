@@ -28,7 +28,7 @@ namespace MDL
 
             while (reader.Read())
             {
-                Equipement equipement = new Equipement(reader[0].ToString(), reader[1].ToString(), decimal.Parse(reader[2].ToString()), decimal.Parse(reader[3].ToString()));
+                Equipement equipement = new Equipement(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString());
                 lesEquipement.Add(equipement);
             }
             return lesEquipement;
@@ -48,6 +48,46 @@ namespace MDL
                 equip = reader[0].ToString();
             }
             return equip;
+        }
+
+        public static string getAllPrixEquipementierEquipementStand(Equipement e)
+        {
+            string prix = "";
+            string req = "Select sum(prixEquipementier) from equipement " +
+                "inner join equipementStand on equipementStand.idEquipement = equipement.idEquipement" +
+                " where idStand = '" + e.unIdEquipementInt + "'";
+            DAOFactory db = new DAOFactory();
+            db.connecter();
+
+            SqlDataReader reader = db.excecSQLRead(req);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    prix = reader[0].ToString();
+                }
+            }
+            return prix;
+        }
+
+        public static string getAllPrixClubOrganisateurEquipementStand(Equipement e)
+        {
+            string prix = "";
+            string req = "Select sum(prixClubOrganisateur) from equipement " +
+                "inner join equipementStand on equipementStand.idEquipement = equipement.idEquipement" +
+                " where idStand = '" + e.unIdEquipementInt + "'";
+            DAOFactory db = new DAOFactory();
+            db.connecter();
+
+            SqlDataReader reader = db.excecSQLRead(req);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    prix = reader[0].ToString();
+                }
+            }
+            return prix;
         }
     }
 }

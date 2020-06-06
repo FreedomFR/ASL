@@ -36,7 +36,7 @@
             this.lbPrix = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.btnValider = new System.Windows.Forms.Button();
-            this.cbxPrestataire = new System.Windows.Forms.ComboBox();
+            this.cbxPartenaire = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cbxNomStand = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -72,6 +72,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.txbPrixClubOrganisateur = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.Liste = new System.Windows.Forms.TabPage();
+            this.dgvListeStandAqui = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.AffectationStand.SuspendLayout();
@@ -79,6 +81,8 @@
             this.Equipements.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listeGestionEquipement)).BeginInit();
+            this.Liste.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListeStandAqui)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -92,6 +96,7 @@
             this.tabControl1.Controls.Add(this.CreationStand);
             this.tabControl1.Controls.Add(this.Equipements);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.Liste);
             this.tabControl1.HotTrack = true;
             this.tabControl1.Location = new System.Drawing.Point(-5, 0);
             this.tabControl1.Name = "tabControl1";
@@ -104,7 +109,7 @@
             this.AffectationStand.Controls.Add(this.lbPrix);
             this.AffectationStand.Controls.Add(this.label10);
             this.AffectationStand.Controls.Add(this.btnValider);
-            this.AffectationStand.Controls.Add(this.cbxPrestataire);
+            this.AffectationStand.Controls.Add(this.cbxPartenaire);
             this.AffectationStand.Controls.Add(this.label3);
             this.AffectationStand.Controls.Add(this.cbxNomStand);
             this.AffectationStand.Controls.Add(this.label2);
@@ -146,24 +151,24 @@
             this.btnValider.UseVisualStyleBackColor = true;
             this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
-            // cbxPrestataire
+            // cbxPartenaire
             // 
-            this.cbxPrestataire.FormattingEnabled = true;
-            this.cbxPrestataire.Location = new System.Drawing.Point(185, 129);
-            this.cbxPrestataire.Name = "cbxPrestataire";
-            this.cbxPrestataire.Size = new System.Drawing.Size(430, 21);
-            this.cbxPrestataire.TabIndex = 4;
-            this.cbxPrestataire.SelectedIndexChanged += new System.EventHandler(this.cbxPrestataire_SelectedIndexChanged);
+            this.cbxPartenaire.FormattingEnabled = true;
+            this.cbxPartenaire.Location = new System.Drawing.Point(185, 129);
+            this.cbxPartenaire.Name = "cbxPartenaire";
+            this.cbxPartenaire.Size = new System.Drawing.Size(430, 21);
+            this.cbxPartenaire.TabIndex = 4;
+            this.cbxPartenaire.SelectedIndexChanged += new System.EventHandler(this.cbxPrestataire_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label3.Location = new System.Drawing.Point(73, 130);
+            this.label3.Location = new System.Drawing.Point(78, 129);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 20);
+            this.label3.Size = new System.Drawing.Size(101, 20);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Prestataire : ";
+            this.label3.Text = "Partenaire : ";
             // 
             // cbxNomStand
             // 
@@ -487,6 +492,24 @@
             this.label15.TabIndex = 16;
             this.label15.Text = "Prix Club Organisateur :";
             // 
+            // Liste
+            // 
+            this.Liste.Controls.Add(this.dgvListeStandAqui);
+            this.Liste.Location = new System.Drawing.Point(4, 22);
+            this.Liste.Name = "Liste";
+            this.Liste.Size = new System.Drawing.Size(765, 611);
+            this.Liste.TabIndex = 4;
+            this.Liste.Text = "Stand aquis par un prestataire";
+            this.Liste.UseVisualStyleBackColor = true;
+            // 
+            // dgvListeStandAqui
+            // 
+            this.dgvListeStandAqui.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListeStandAqui.Location = new System.Drawing.Point(127, 124);
+            this.dgvListeStandAqui.Name = "dgvListeStandAqui";
+            this.dgvListeStandAqui.Size = new System.Drawing.Size(565, 336);
+            this.dgvListeStandAqui.TabIndex = 0;
+            // 
             // Creation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,6 +530,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listeGestionEquipement)).EndInit();
+            this.Liste.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListeStandAqui)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -520,7 +545,7 @@
         private System.Windows.Forms.TabPage CreationStand;
         private System.Windows.Forms.TabPage Equipements;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbxPrestataire;
+        private System.Windows.Forms.ComboBox cbxPartenaire;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbxNomStand;
         private System.Windows.Forms.Button btnValider;
@@ -555,6 +580,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txbPrixClubOrganisateur;
+        private System.Windows.Forms.TabPage Liste;
+        private System.Windows.Forms.DataGridView dgvListeStandAqui;
     }
 }
 

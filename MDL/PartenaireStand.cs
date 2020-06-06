@@ -10,13 +10,27 @@ namespace MDL
     {
         private string idPartenaire;
         private string idStand;
-        private decimal prix;
+        private string prix;
+        private string nom;
 
-        public PartenaireStand(string unIdPartenaire, string unIdStand, decimal unPrix)
+        public PartenaireStand(string unIdPartenaire, string unIdStand, string unPrix)
         {
             this.idPartenaire = unIdPartenaire;
             this.idStand = unIdStand;
             this.prix = unPrix;
+        }
+
+        public PartenaireStand(string unIdPartenaire, string unIdStand, string unPrix, string unNom)
+        {
+            this.idPartenaire = unIdPartenaire;
+            this.idStand = unIdStand;
+            this.prix = unPrix;
+            this.nom = unNom;
+        }
+
+        public PartenaireStand()
+        {
+
         }
 
         public string unIdPartenaire
@@ -31,10 +45,16 @@ namespace MDL
             set { idStand = value; }
         }
 
-        public decimal unPrix
+        public string unPrix
         {
             get { return prix; }
             set { prix = value; }
+        }
+
+        public string unNom
+        {
+            get { return nom; }
+            set { nom = value; }
         }
 
         public void ajouterPartenaireStand()
@@ -42,5 +62,9 @@ namespace MDL
             DAOPartenaireStand.addPartenaireStand(this);
         }
 
+        public static List<PartenaireStand> avoirPartenaireStandAquis()
+        {
+            return DAOPartenaireStand.getAllParteneaireStandAquis();
+        }
     }
 }

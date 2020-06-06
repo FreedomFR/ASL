@@ -11,7 +11,7 @@ namespace MDL
     {
         public static void addPartenaireStand(PartenaireStand p)
         {
-            string requete = "INSERT equipementStand (idStand, idPartenaire, prix) VALUES ('" + p.unIdStand + "','" + p.unIdPartenaire + "','" + p.unPrix + "')";
+            string requete = "INSERT partenaireStand (idStand, idPartenaire, prix) VALUES ('" + p.unIdStand + "','" + p.unIdPartenaire + "','" + p.unPrix + "')";
             DAOFactory CS = new DAOFactory();
             CS.connecter();
             CS.execSQLWrite(requete);
@@ -29,7 +29,7 @@ namespace MDL
             {
                 while (reader.Read())
                 {
-                    Equipement equipement = new Equipement(reader[0].ToString(), decimal.Parse(reader[1].ToString()), decimal.Parse(reader[2].ToString()));
+                    Equipement equipement = new Equipement(reader[0].ToString(), reader[1].ToString(), reader[2].ToString());
                     lesEquipement.Add(equipement);
                 }
             }
@@ -39,6 +39,30 @@ namespace MDL
             }
 
             return lesEquipement;
+        }
+
+        public static List<PartenaireStand> getAllParteneaireStandAquis()
+        {
+            List<PartenaireStand> lesPartenaireStandAquis = new List<PartenaireStand>();
+            string req = "Select nomPartenaire, typePartenaire, prix , nomStand from partenaire, partenaireStand, stand where partenaireStand.idStand = partenaire.idPartenaire and stand.idStand = partenaireStand.idStand";
+            DAOFactory db = new DAOFactory();
+            db.connecter();
+
+            SqlDataReader reader = db.excecSQLRead(req);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    PartenaireStand p = new PartenaireStand(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString());
+                    lesPartenaireStandAquis.Add(p);
+                }
+            }
+            else
+            {
+                lesPartenaireStandAquis = null;
+            }
+
+            return lesPartenaireStandAquis;
         }
     }
 }

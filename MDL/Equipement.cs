@@ -8,19 +8,20 @@ namespace MDL
 {
     class Equipement
     {
+        private int idEquipementInt;
         private string idEquipement;
         private string libelle;
-        private decimal prixEquipementier;
-        private decimal prixClubOrganisateur;
+        private string prixEquipementier;
+        private string prixClubOrganisateur;
 
 
-        public Equipement(string unLibelle, decimal unPrixEquipementier,decimal unPrixClubOrganisateur)
+        public Equipement(string unLibelle, string unPrixEquipementier, string unPrixClubOrganisateur)
         {
             this.libelle = unLibelle;
             this.prixEquipementier = unPrixEquipementier;
             this.prixClubOrganisateur = unPrixClubOrganisateur;
         }
-        public Equipement(string unIdEquipement,string unLibelle, decimal unPrixEquipementier, decimal unPrixClubOrganisateur)
+        public Equipement(string unIdEquipement,string unLibelle, string unPrixEquipementier, string unPrixClubOrganisateur)
         {
             this.idEquipement = unIdEquipement;
             this.libelle = unLibelle;
@@ -31,6 +32,11 @@ namespace MDL
         public Equipement(string unLibelle)
         {
             this.libelle = unLibelle;
+        }
+
+        public Equipement(int unIdEquipementInt)
+        {
+            this.idEquipementInt = unIdEquipementInt;
         }
 
         public static List<Equipement> listeEquipement()
@@ -55,13 +61,19 @@ namespace MDL
             set { idEquipement = value; }
         }
 
-        public decimal unPrixEquipementier
+        public int unIdEquipementInt
+        {
+            get { return idEquipementInt; }
+            set { idEquipementInt = value; }
+        }
+
+        public string unPrixEquipementier
         {
             get { return prixEquipementier; }
             set { prixEquipementier = value; }
         }
 
-        public decimal unPrixClubOrganisateur
+        public string unPrixClubOrganisateur
         {
             get { return prixClubOrganisateur; }
             set { prixClubOrganisateur = value; }
@@ -70,6 +82,16 @@ namespace MDL
         public string getIdEquipement()
         {
             return DAOEquipements.getIdEquipement(this);
+        }
+
+        public string getPrixEquipementier()
+        {
+            return DAOEquipements.getAllPrixEquipementierEquipementStand(this);
+        }
+
+        public string getPrixClubOrganisateur()
+        {
+            return DAOEquipements.getAllPrixClubOrganisateurEquipementStand(this);
         }
     }
 }

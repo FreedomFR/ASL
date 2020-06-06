@@ -29,7 +29,7 @@ namespace MDL
             {
                 while (reader.Read())
                 {
-                    Equipement equipement = new Equipement(reader[0].ToString(), decimal.Parse(reader[1].ToString()), decimal.Parse(reader[2].ToString()));
+                    Equipement equipement = new Equipement(reader[0].ToString(), reader[1].ToString(), reader[2].ToString());
                     lesEquipement.Add(equipement);
                 }
             }

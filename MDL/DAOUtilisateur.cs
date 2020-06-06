@@ -19,12 +19,14 @@ namespace MDL
             CS.connecter();
 
             SqlDataReader reader = CS.excecSQLRead(req);
-
-            if(reader.Read())
+            
+            if (reader.Read())
             {
                 valide = true;
             }
+            CS.deconnecter();
             return valide;
+            
         }
 
         public static void addUtilisateur(Utilisateur utilisateur)
@@ -33,6 +35,7 @@ namespace MDL
             DAOFactory CS = new DAOFactory();
             CS.connecter();
             CS.execSQLWrite(requete);
+            CS.deconnecter();
         }
     }
 }

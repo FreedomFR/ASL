@@ -12,22 +12,17 @@ namespace MDL
         private string nomPartenaire;
         private string typePartenaire;
 
-        public Partenaire()
-        {
-
-        }
 
         public Partenaire(string unNomPartenaire, string unTypePartenaire)
         {
-            this.unNomPartenaire = unNomPartenaire;
-            this.unTypePartenaire = unTypePartenaire;
+            this.nomPartenaire = unNomPartenaire;
+            this.typePartenaire = unTypePartenaire;
         }
 
-        public Partenaire(string unIdpartenaire)
+        public Partenaire(string unNomPatenaire)
         {
-            this.unIdPartenaire = unIdPartenaire;
+            this.nomPartenaire = unNomPatenaire;
         }
-
 
         public string unIdPartenaire
         {
@@ -56,5 +51,12 @@ namespace MDL
         {
             return DAOPartenaire.getIdPartenaire(this);
         }
+
+        public string getTypePartenaire()
+        {
+            return DAOPartenaire.getTypePartenaire(this);
+        }
+
+
     }
 }

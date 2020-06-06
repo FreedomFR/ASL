@@ -32,6 +32,11 @@ namespace MDL
             this.nomStand = unNomStand;
         }
 
+        public Stand()
+        {
+
+        }
+
 
         public List<Equipement> LesEquipement
         {
@@ -82,9 +87,9 @@ namespace MDL
         }
 
 
-        public void ajouterEquipement(Equipement equipement)
+        public void ajouterStand()
         {
-            LesEquipement.Add(equipement);
+            DAOStands.creerStand(this);
         }
 
         public static List<Stand> listeStand()

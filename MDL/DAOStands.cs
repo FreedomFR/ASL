@@ -22,18 +22,21 @@ namespace MDL
         public static List<Stand> getAllStand()
         {
             List<Stand> lesStand = new List<Stand>();
-            string req = "Select * from stand";
+            string req = "Select * from stand where idStand not in (select idStand from partenaireStand)";
             DAOFactory db = new DAOFactory();
             db.connecter();
 
             SqlDataReader reader = db.excecSQLRead(req);
+            
 
             while (reader.Read())
             {
                 Stand stand = new Stand(reader[1].ToString(), int.Parse(reader[2].ToString()), int.Parse(reader[3].ToString()), int.Parse(reader[4].ToString()), int.Parse(reader[5].ToString()), int.Parse(reader[6].ToString()));
                 lesStand.Add(stand);
             }
+            db.deconnecter();
             return lesStand;
+            
         }
 
         public static string getIdStand(Stand s)
@@ -49,7 +52,9 @@ namespace MDL
             {
                 stand = reader[0].ToString();
             }
+            db.deconnecter();
             return stand;
+            
         }
 
     }

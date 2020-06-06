@@ -12,7 +12,11 @@ namespace MDL
 {
     public partial class Creation : Form
     {
-        private GestionEquipementStand gestion;
+        List<Equipement> mesEquipement = Equipement.listeEquipement();
+        List<Stand> mesStands = Stand.listeStand();
+        List<Partenaire> mesPartenaires = Partenaire.AvoirToutLesParteneaire();
+        List<PartenaireStand> mesPartenaireStands = PartenaireStand.avoirPartenaireStandAquis();
+
         public Creation()
         {
             InitializeComponent();
@@ -21,8 +25,9 @@ namespace MDL
         private void Creation_Load(object sender, EventArgs e)
         {
             remplirListeEquipements();
-            remplirListeStand();
             remplirListePartenaire();
+            remplirListeStand();
+            remplirListeStandAquisPrestataire();
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -42,7 +47,7 @@ namespace MDL
 
             stand = new Stand(txbNomStand.Text, numAlle, numOrdre, Surface, nombreSiege, nombreTable);
 
-            DAOStands.creerStand(stand);
+            stand.ajouterStand();
             remplirListeStand();
         }
 
@@ -61,9 +66,7 @@ namespace MDL
             if(txbNomEquipement.Text.Length != 0 && txbPrixEquipementier != null && txbPrixClubOrganisateur != null)
             {
                 Equipement equipement;
-                decimal prixEquipementier = decimal.Parse(txbPrixEquipementier.Text);
-                decimal prixClubOrganisateur = decimal.Parse(txbPrixClubOrganisateur.Text);
-                equipement = new Equipement(txbNomEquipement.Text, prixEquipementier, prixClubOrganisateur);
+                equipement = new Equipement(txbNomEquipement.Text, txbPrixEquipementier.Text, txbPrixClubOrganisateur.Text);
 
                 equipement.ajouterEquipement();
                 remplirListeEquipements();
@@ -77,10 +80,7 @@ namespace MDL
 
         private void remplirListeEquipements()
         {
-            Equipement equipement;
-            List<Equipement> mesEquipement = Equipement.listeEquipement();
-
-            // checkListBoxStand.Items.Add(mesEquipement);
+            mesEquipement = Equipement.listeEquipement();
             List<string> lesLibelles = new List<string>();
             for (int i = 0; i < mesEquipement.Count; i++)
             {
@@ -91,9 +91,7 @@ namespace MDL
 
         private void remplirListeStand()
         {
-            List<Stand> mesStands = Stand.listeStand();
-
-            // checkListBoxStand.Items.Add(mesEquipement);
+            mesStands = Stand.listeStand();
             List<string> lesStands = new List<string>();
             for (int i = 0; i < mesStands.Count; i++)
             {
@@ -107,17 +105,25 @@ namespace MDL
 
         private void remplirListePartenaire()
         {
-            List<Partenaire> mesPartenaires = Partenaire.AvoirToutLesParteneaire();
-
-            // checkListBoxStand.Items.Add(mesEquipement);
+            mesPartenaires = Partenaire.AvoirToutLesParteneaire();
             List<string> lesPartenaires = new List<string>();
             for (int i = 0; i < mesPartenaires.Count; i++)
             {
                 lesPartenaires.Add(mesPartenaires.ElementAt(i).unNomPartenaire);
             }
+            cbxPartenaire.DataSource = lesPartenaires;
+        }
 
-            cbxPrestataire.DataSource = null;
-            cbxPrestataire.DataSource = lesPartenaires;
+        private void remplirListeStandAquisPrestataire()
+        {
+            mesPartenaireStands = PartenaireStand.avoirPartenaireStandAquis();
+            PartenaireStand p;
+            for (int i = 0; i < mesPartenaireStands.Count; i++)
+            {
+                dgvListeStandAqui.DataSource = null;
+                p = new PartenaireStand();
+                dgvListeStandAqui.DataSource = mesPartenaireStands;
+            }
         }
 
         private void cbxGestionsNonStands_SelectedIndexChanged(object sender, EventArgs e)
@@ -125,9 +131,7 @@ namespace MDL
             string idStand = "";
             Stand stand = new Stand(cbxGestionsNonStands.SelectedItem.ToString());
             GestionEquipementStand g;
-            List<Stand> mesStands = Stand.listeStand();
-
-            List<string> lesStands = new List<string>();
+            
             for (int i = 0; i < mesStands.Count; i++)
             {
                 idStand = stand.getIdStand();
@@ -147,17 +151,11 @@ namespace MDL
             Stand stand = new Stand(cbxGestionsNonStands.SelectedItem.ToString());
             Equipement equipement = new Equipement(cbxGestionEquipement.SelectedItem.ToString());
 
-            List<Stand> mesStands = Stand.listeStand();
-            List<Equipement> mesEquipement = Equipement.listeEquipement();
-
-
-            List<string> lesStands = new List<string>();
             for (int i = 0; i < mesStands.Count; i++)
             {
                 idStand = stand.getIdStand();
             }
 
-            List<string> lesLibelles = new List<string>();
             for (int i = 0; i < mesEquipement.Count; i++)
             {
                 idEquipement = equipement.getIdEquipement();
@@ -175,58 +173,113 @@ namespace MDL
 
         private void cbxPrestataire_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int idStand = 0;
+            string type = "";
+            string prix = "";
+            if(cbxNomStand.SelectedItem != null && cbxPartenaire.SelectedItem != null)
+            {
+                Stand stand = new Stand(cbxNomStand.SelectedItem.ToString());
+                Partenaire partenaire = new Partenaire(cbxPartenaire.SelectedItem.ToString());
 
+                for (int i = 0; i < mesStands.Count; i++)
+                {
+                    idStand = int.Parse(stand.getIdStand());
+                }
+
+                for (int i = 0; i < mesPartenaires.Count; i++)
+                {
+                    type = partenaire.getTypePartenaire();
+                }
+
+                if (type == "équipementier")
+                {
+                    Equipement equipement = new Equipement(idStand);
+                    prix = equipement.getPrixEquipementier();
+                    lbPrix.Text = prix.ToString();
+                }
+                if (type == "clubOrganisateur")
+                {
+                    Equipement equipement = new Equipement(idStand);
+                    prix = equipement.getPrixClubOrganisateur();
+                    lbPrix.Text = prix.ToString();
+                }
+            }
+           
         }
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            string idStand = "";
+
+            int idStand = 0;
             string idPartenaire = "";
-            Stand stand = new Stand(cbxGestionsNonStands.SelectedItem.ToString());
-            Partenaire partenaire = new Partenaire(cbxPrestataire.SelectedItem.ToString());
+            string type = "";
+            string prix = "";
 
-            List<Stand> mesStands = Stand.listeStand();
-            List<Partenaire> mesPartenaires = Partenaire.AvoirToutLesParteneaire();
+            Stand stand = new Stand(cbxNomStand.SelectedItem.ToString());
+            Partenaire partenaire = new Partenaire(cbxPartenaire.SelectedItem.ToString());
 
-            List<string> lesStands = new List<string>();
             for (int i = 0; i < mesStands.Count; i++)
             {
-                idStand = stand.getIdStand();
+                idStand = int.Parse(stand.getIdStand());
             }
 
-            List<string> lesPartnaires = new List<string>();
             for (int i = 0; i < mesPartenaires.Count; i++)
             {
-                idPartenaire = partenaire.ToString();
+                idPartenaire = partenaire.getIdPartenaire();
+                type = partenaire.getTypePartenaire();
             }
 
-            Partenaire p = new Partenaire(idPartenaire, idStand);
+            if (type == "équipementier")
+            {
+                Equipement equipement = new Equipement(idStand);
+                prix = equipement.getPrixEquipementier();
+                lbPrix.Text = prix.ToString();
+            }
+            if (type == "clubOrganisateur")
+            {
+                Equipement equipement = new Equipement(idStand);
+                prix = equipement.getPrixClubOrganisateur();
+                lbPrix.Text = prix.ToString();
+            }
+
+            PartenaireStand p = new PartenaireStand(idPartenaire, Convert.ToString(idStand), prix);
+            p.ajouterPartenaireStand();
         }
 
         private void cbxNomStand_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string idStand = "";
-            string idPartenaire = "";
-            decimal prix = 0;
-            //Stand stand = new Stand(cbxNomStand.SelectedItem.ToString());
-            //Partenaire partenaire = new Partenaire(cbxPrestataire.SelectedItem.ToString());
+            int idStand = 0;
+            string type = "";
+            string prix = "";
+            if (cbxNomStand.SelectedItem != null && cbxPartenaire.SelectedItem != null)
+            {
+                Stand stand = new Stand(cbxNomStand.SelectedItem.ToString());
+                Partenaire partenaire = new Partenaire(cbxPartenaire.SelectedItem.ToString());
 
-            //List<Stand> mesStands = Stand.listeStand();
-            //List<Partenaire> mesPartenaires = Partenaire.AvoirToutLesParteneaire();
+                for (int i = 0; i < mesStands.Count; i++)
+                {
+                    idStand = int.Parse(stand.getIdStand());
+                }
 
-            //List<string> lesStands = new List<string>();
-            //for (int i = 0; i < mesStands.Count; i++)
-            //{
-            //    idStand = stand.getIdStand();
-            //}
+                for (int i = 0; i < mesPartenaires.Count; i++)
+                {
+                    type = partenaire.getTypePartenaire();
+                }
 
-            //List<string> lesPartnaires = new List<string>();
-            //for (int i = 0; i < mesPartenaires.Count; i++)
-            //{
-            //    idPartenaire = partenaire.ToString();
-            //}
-
-
+                if (type == "équipementier")
+                {
+                    Equipement equipement = new Equipement(idStand);
+                    prix = equipement.getPrixEquipementier();
+                    lbPrix.Text = prix.ToString();
+                }
+                if (type == "clubOrganisateur")
+                {
+                    Equipement equipement = new Equipement(idStand);
+                    prix = equipement.getPrixClubOrganisateur();
+                    lbPrix.Text = prix.ToString();
+                }
+            }
+                
         }
     }
 }

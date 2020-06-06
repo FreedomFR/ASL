@@ -30,7 +30,7 @@ namespace MDL
         public static string getIdPartenaire(Partenaire p)
         {
             string partenaire = "";
-            string req = "Select idParteneaire from stand where nomPartenaire = '" + p.unNomPartenaire + "'";
+            string req = "Select idPartenaire from partenaire where nomPartenaire = '" + p.unNomPartenaire + "'";
             DAOFactory db = new DAOFactory();
             db.connecter();
 
@@ -42,5 +42,23 @@ namespace MDL
             }
             return partenaire;
         }
+
+        public static string getTypePartenaire(Partenaire p)
+        {
+            string partenaire = "";
+            string req = "Select typePartenaire from partenaire where nomPartenaire = '" + p.unNomPartenaire + "'";
+            DAOFactory db = new DAOFactory();
+            db.connecter();
+
+            SqlDataReader reader = db.excecSQLRead(req);
+
+            while (reader.Read())
+            {
+                partenaire = reader[0].ToString();
+            }
+            return partenaire;
+        }
+
+        
     }
 }
